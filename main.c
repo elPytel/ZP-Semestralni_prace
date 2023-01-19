@@ -15,22 +15,31 @@ Vyber dane operace je proveden pomoci zadani znalu operace.
 */
 void menu(void)
 {
-    const char *MENU[] = {
-        "scitani", "+",
-        "odcitani", "-",
-        "nasobeni", "*",
-        "deleni", "/",
-        "modulo", "%",
-        "exponent", "^"};
-
-    const int POCET_OPERACI = size(MENU) / (2 * size(MENU[0]));
-
-    printf("Menu: \n");
-    for (int i = 0; i < 2 * POCET_OPERACI; i += 2)
+    // menu struct
+    struct operace
     {
-        printf("(%s) %s \n", MENU[i + 1], MENU[i]);
+        char *nazev;
+        char *znak;
+    };
+
+    // menu array
+    const struct operace MENU[] = {
+        {"scitani", "+"},
+        {"odcitani", "-"},
+        {"nasobeni", "*"},
+        {"deleni", "/"},
+        {"modulo", "%"},
+        {"exponent", "^"}};
+
+    const int POCET_OPERACI = sizeof(MENU) / sizeof(MENU[0]);
+
+    // vypis menu
+    printf("Menu: \n");
+    for (int i = 0; i < POCET_OPERACI; i++)
+    {
+        printf("(%s) %s \n", MENU[i].znak, MENU[i].nazev);
     }
-    printf("\n");
+    printf("\n");    
 }
 
 void clear_stdin(void)
@@ -60,7 +69,7 @@ void nacti_cislo(float *cislo)
 }
 
 // Funkce pro vypocet
-int vypocet(float a, float b, char operace, float *vysledek)
+bool vypocet(float a, float b, char operace, float *vysledek)
 {
     switch (operace)
     {
