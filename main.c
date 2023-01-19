@@ -1,5 +1,5 @@
 // Jednoduche kalkulacka v C.
-// Autor: Erika Dmytrenková
+// Autor: Erika Dmytrenkova
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -7,126 +7,144 @@
 
 #define QUIT 'q'
 
-
 /* funkce menu.
 Na vyber je:
 scitani, odcitani, nasobeni, deleni
-Texty pro menu jsou uložené v poli stringu.
-Výbìr dané operace je proveden pomocí zadání znalu operace.
+Texty pro menu jsou ulozeny v poli stringu.
+Vyber dane operace je proveden pomoci zadani znalu operace.
 */
 void menu(void)
-const char *MENU[]= {
-  "scitani", "+",
-  "odcitani", "-",
-  "nasobeni", "*",
-  "deleni", "/",
-  "modulo", "%",
-  "exponent", "^"
-};
-const int POCET_OPERACI = size(MENU) / (2*size(MENU[0]));
-
 {
-  printf("Menu: \n");
-  for (int i = 0; i < 2*POCET_OPERACI; i += 2) {
-    printf("(%s) %s \n", MENU[i + 1], MENU[i]);
-  }
-  printf("\n");
+    // menu struct
+    struct operace
+    {
+        char *nazev;
+        char *znak;
+    };
+
+    // menu array
+    const struct operace MENU[] = {
+        {"scitani", "+"},
+        {"odcitani", "-"},
+        {"nasobeni", "*"},
+        {"deleni", "/"},
+        {"modulo", "%"},
+        {"exponent", "^"}};
+
+    const int POCET_OPERACI = sizeof(MENU) / sizeof(MENU[0]);
+
+    // vypis menu
+    printf("Menu: \n");
+    for (int i = 0; i < POCET_OPERACI; i++)
+    {
+        printf("(%s) %s \n", MENU[i].znak, MENU[i].nazev);
+    }
+    printf("\n");
 }
 
 void clear_stdin(void)
 {
-  while (getchar() != '\n');
+    while (getchar() != '\n')
+        ;
 }
 
 void nacti_operaci(char *operace)
 {
-  scanf(" %c", operace);
-  while (getchar() != '\n');
+    scanf(" %c", operace);
+    while (getchar() != '\n')
+        ;
 }
 
 void nacti_cislo(float *cislo)
 {
-  while (scanf("%f", cislo) != 1) {
-    printf("Zadali jste cislo spatne.\n");
-    printf("Zadejte cislo znovu: ");
-    while (getchar() != '\n');
-  }
-  while (getchar() != '\n');
+    while (scanf("%f", cislo) != 1)
+    {
+        printf("Zadali jste cislo spatne.\n");
+        printf("Zadejte cislo znovu: ");
+        while (getchar() != '\n')
+            ;
+    }
+    while (getchar() != '\n')
+        ;
 }
-
 
 // Funkce pro vypocet
-int vypocet(float a, float b, char operace, float *vysledek)
+bool vypocet(float a, float b, char operace, float *vysledek)
 {
-  switch (operace) {
+    switch (operace)
+    {
     case '+':
-      *vysledek = a + b;
-      break;
+        *vysledek = a + b;
+        break;
     case '-':
-      *vysledek = a - b;
-      break;
+        *vysledek = a - b;
+        break;
     case '*':
-      *vysledek = a * b;
-      break;
+        *vysledek = a * b;
+        break;
     case '^':
-      *vysledek = pow(a, b);
-      break;
+        *vysledek = pow(a, b);
+        break;
     case '%':
-      if (b == 0) {
-        printf("Nelze delit nulou!\n");
-        return false;
-      }
-      *vysledek = (int)a % (int)b;
-      break;
+        if (b == 0)
+        {
+            printf("Nelze delit nulou!\n");
+            return false;
+        }
+        *vysledek = (int)a % (int)b;
+        break;
     case '/':
-      if (b == 0) {
-        printf("Nelze delit nulou!\n");
-        return false;
-      }
-      *vysledek = a / b;
-      break;
+        if (b == 0)
+        {
+            printf("Nelze delit nulou!\n");
+            return false;
+        }
+        *vysledek = a / b;
+        break;
     default:
-      printf("Neplatna operace!\n");
-      return false;
-  }
+        printf("Neplatna operace!\n");
+        return false;
+    }
 
-  return true;
+    return true;
 }
-
-
 
 // funkce main
 int main(void)
 {
-  float a, b, vysledek;
-  char operace;
-  char opakovat;
+    float a, b, vysledek;
+    char operace;
+    char opakovat;
 
-  // opakuj dokud uzivatel nezada q
-  do {
-    // vypis menu
-    menu();
+    // opakuj dokud uzivatel nezada q
+    do
+    {
+        // vypis menu
+        menu();
 
-    // zadej cisla a operaci
-    printf("Zadejte operaci: ");
-    nacti_operaci(&operace);
-    printf("Zadejte prvni cislo: ");
-    nacti_cislo(&a);
-    printf("Zadejte druhe cislo: ");
-    nacti_cislo(&b);
+        // zadej cisla a operaci
+        printf("Zadejte operaci: ");
+        nacti_operaci(&operace);
+        printf("Zadejte prvni cislo: ");
+        nacti_cislo(&a);
+        printf("Zadejte druhe cislo: ");
+        nacti_cislo(&b);
 
-    // vypocet
-    if (!vypocet(a, b, operace, &vysledek)) {
-      printf("Vysledek nelze vypocitat.\n");
-    } else {
-      printf("Vysledek je: %.3f\n", vysledek);
-    }
+        // vypocet
+        if (!vypocet(a, b, operace, &vysledek))
+        {
+            printf("Vysledek nelze vypocitat.\n");
+        }
+        else
+        {
+            printf("Vysledek je: %.3f\n", vysledek);
+        }
 
-    // opakovat?
-    printf("Pro dalsi vypocet zadejte libovolny znak. (%c pro ukonceni) \n", QUIT);
-    printf("Zadejte znak: ");
-    nacti_operaci(&opakovat);
-  } while (opakovat != QUIT);
+        // opakovat?
+        printf("Pro dalsi vypocet zadejte libovolny znak. (%c pro ukonceni) \n", QUIT);
+        printf("Zadejte znak: ");
+        nacti_operaci(&opakovat);
+    } while (opakovat != QUIT);
 
-  return 0;
+    return 0;
 }
