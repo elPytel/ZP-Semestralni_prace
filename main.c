@@ -15,14 +15,14 @@ Vyber dane operace je proveden pomoci zadani znalu operace.
 */
 void menu(void)
 {
-    // menu struct
+    // struktura menu, první nazev, druhý znak - čte z MENU
     struct operace
     {
         char *nazev;
         char *znak;
     };
 
-    // menu array
+    // menu array, 
     const struct operace MENU[] = {
         {"scitani", "+"},
         {"odcitani", "-"},
@@ -130,7 +130,7 @@ int main(void)
         printf("Zadejte druhe cislo: ");
         nacti_cislo(&b);
 
-        // vypocet
+        // vypocet, %.3f - float, za teckou vypise 3 desetinna cisla
         if (!vypocet(a, b, operace, &vysledek))
         {
             printf("Vysledek nelze vypocitat.\n");
