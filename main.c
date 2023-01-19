@@ -39,7 +39,7 @@ void menu(void)
     {
         printf("(%s) %s \n", MENU[i].znak, MENU[i].nazev);
     }
-    printf("\n");    
+    printf("\n");
 }
 
 void clear_stdin(void)
